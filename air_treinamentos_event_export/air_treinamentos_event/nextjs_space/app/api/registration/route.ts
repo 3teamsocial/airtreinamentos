@@ -1,67 +1,55 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { prisma } from '@/lib/prisma'
 
-import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-
-export const dynamic = 'force-dynamic';
-
-const prisma = new PrismaClient();
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { name, email, phone } = body;
+    const body = await request.json()
+    const { name, email, phone } = body
 
-    // Validate required fields
     if (!name || !email || !phone) {
       return NextResponse.json(
         { success: false, error: 'Todos os campos são obrigatórios' },
         { status: 400 }
-      );
+      )
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email)) {
       return NextResponse.json(
         { success: false, error: 'Email inválido' },
         { status: 400 }
-      );
+      )
     }
 
-    // Check if email already exists
     const existingRegistration = await prisma.registration.findFirst({
-      where: { email: email.toLowerCase() }
-    });
+      where: { email: email.toLowerCase() },
+    })
 
     if (existingRegistration) {
       return NextResponse.json(
-        { success: false, error: 'Este email já está registrado para a imersão' },
+        { success: false, error: 'Email já cadastrado' },
         { status: 409 }
-      );
+      )
     }
 
-    // Create new registration
     const registration = await prisma.registration.create({
       data: {
-        name: name.trim(),
-        email: email.toLowerCase().trim(),
-        phone: phone.trim(),
+        name,
+        email: email.toLowerCase(),
+        phone,
       },
-    });
+    })
 
-    return NextResponse.json({
-      success: true,
-      message: 'Inscrição realizada com sucesso! Nossa equipe entrará em contato em breve.',
-      registrationId: registration.id
-    });
-
+    return NextResponse.json({ success: true, data: registration })
   } catch (error) {
-    console.error('Erro ao processar inscrição:', error);
+    console.error('Registration error:', error)
     return NextResponse.json(
-      { success: false, error: 'Erro interno do servidor. Tente novamente.' },
+      { success: false, error: 'Erro interno do servidor' },
       { status: 500 }
-    );
-  } finally {
-    await prisma.$disconnect();
+    )
   }
 }
+
