@@ -23,7 +23,7 @@ export default function Header() {
           <div className="flex items-center space-x-4">
             <div className="relative w-12 h-12">
               <Image
-                src="/air-treinamentos-logo.jpg"
+                src="/air-treinamentos-logo.png"
                 alt="Air Treinamentos Logo"
                 fill
                 className="object-contain rounded-lg"
