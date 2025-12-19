@@ -8,12 +8,12 @@ export default function FloatingRegisterButton() {
       rel="noopener noreferrer"
       className="
         fixed bottom-6 right-6 z-50
-        bg-orange-500 hover:bg-orange-600
+        bg-gradient-to-r from-orange-500 to-red-600
+        hover:from-orange-600 hover:to-red-700
         text-white font-semibold
         px-6 py-4 rounded-full
         shadow-xl
         transition-all duration-300
-        animate-pulse
       "
     >
       Inscreva-se aqui
