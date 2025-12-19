@@ -21,7 +21,7 @@ export default function Header() {
       <div className="max-w-6xl mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <div className="relative w-28 h-12">
+            <div className="relative w-40 h-12">
               <Image
                 src="/air-treinamentos-logo.png"
                 alt="Air Treinamentos Logo"
