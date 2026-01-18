@@ -4,6 +4,37 @@ import './globals.css'
 
 import FloatingRegisterButton from '@/components/floating-register-button'
 
+import Script from "next/script";
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="pt-BR">
+      <body>
+        {/* Google Analytics */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-EN54R185LR"
+        />
+
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-EN54R185LR');
+          `}
+        </Script>
+
+        {children}
+      </body>
+    </html>
+  );
+}
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
